@@ -1,0 +1,102 @@
+<html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="http://fontawesome.io/assets/css/site.css">
+  <link rel="stylesheet" href="http://fontawesome.io/assets/css/pygments.css">
+  <link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
+
+<script>
+    $(document).ready(function(){
+            $('input[type=range]').change(function(){
+                $(this).parent().parent().find('.count').html($(this).val());
+            })
+    })
+</script>
+<style>
+    .page {width: 480px;}
+    .nopad {padding: 0}
+    .icons i {font-size: 40px;}
+    .icons td {
+        padding: 10 0 10 0;
+        color: #00aeed;
+        }
+</style>
+<body>
+
+<div class="container" style="width: 480px;">
+    <div class="row page">
+        <div  style="height: 480px;">
+            <div class="col-lg-6 nopad" style="background: #fc6900;">
+                <img src="./img/c_left.png">
+            </div>
+            <div class="col-lg-6 nopad" style="background: #00aeed;">
+                <img src="./img/c_right.png">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <table class="icons" width="100%">
+            <tr>
+                <td colspan="4" align="center">
+                    <div class="btn-group" data-toggle="buttons">
+                      <label class="btn btn-info active">
+                          <input type="radio" name="options" id="on" autocomplete="off" checked>
+                          <i class="fa fa-lightbulb-o" title="Включено постоянно"></i> ВКЛ
+                      </label>
+                      <label class="btn btn-info">
+                          <input type="radio" name="options" id="motion" autocomplete="off">
+                          <i class="fa fa-lightbulb-o" title="Включение при детекции движения"></i> ДВИЖЕНИЕ
+                      </label>
+                      <label class="btn btn-info">
+                          <input type="radio" name="options" id="off" autocomplete="off">
+                          <i class="fa fa-lightbulb-o" title="Выключено"></i> ВЫКЛ
+                      </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="70">
+                    <i class="fa fa-sun-o" aria-hidden="true" title="Уровень освещенности помещения для активации датчиков"></i>
+                </td>
+                <td colspan="2">
+                    <input id="test" type="range" min="0" max="1023"/>
+                </td>
+                <td width="70" align="right">
+                    <span class="count">1023</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i class="fa fa-clock-o" title="Количество секунд после окончания детекции движения при котором портал будет оставаться включенным"></i>
+                </td>
+                <td colspan="2">
+                    <input id="test" type="range" min="10" max="3600"/>
+                </td>
+                <td width="70" align="right">
+                    <span class="count">3600</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i class="fa fa-compress" title="Включать оба портала от любого из датчиков"></i>
+                </td>
+                <td >
+                    <input type="checkbox">
+                </td>
+                <td align="right">
+                    <i class="fa fa-lightbulb-o" title="Плавное включение и выключение порталов"></i>
+                </td>
+                <td align="right">
+                    <input type="checkbox">
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+
+</html>

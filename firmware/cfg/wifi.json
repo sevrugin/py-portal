@@ -1,0 +1,14 @@
+{
+  "sta": {
+    "enabled": true,
+    "essid": {
+      "BabayN": "Babay2010",
+      "UniSender": "UniSenderUkraine2014"
+    }
+  },
+  "ap": {
+    "enabled": true,
+    "essid": "py-node",
+    "password": "12345678"
+  }
+}
