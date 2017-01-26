@@ -4,7 +4,7 @@ from pynode.http.response import Response
 import sys
 
 
-class LighterController(Controller):
+class PortalController(Controller):
     pins = {
         'G1': {'gpio': 14},
         'Y1': {'gpio': 12},

@@ -4,14 +4,16 @@ if sys.platform != 'linux':
     from pynode import wifi
     wifi.init()
 
-    from machine import Timer
-    tim = Timer(-1)
-    tim.init(period=10000, mode=Timer.PERIODIC, callback=wifi.check)
-
+# Init timers
+from pynode import interval
+from src.service import portal
+interval.add('portal.check', portal.check, 100) # проверяем датчики каждые 100 мс
+interval.add('wifi.check', wifi.check, 10000) # проверяем wi-fi каждые 10 с
+interval.start() # начинаем работу таймеров
 
 # start HTTP-server
 from pynode.http.server import Server
-from src.controller.controller import LighterController
+from src.controller.controller import PortalController
 
-server = Server(LighterController())
+server = Server(PortalController())
 server.start()
