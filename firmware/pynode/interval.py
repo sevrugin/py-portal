@@ -24,7 +24,7 @@ def stop():
     _timer.deinit()
 
 
-def __iteration():
+def __iteration(data):
     for timer in _timers:
         timer.current += INTERVAL
         if timer.current >= timer.interval:

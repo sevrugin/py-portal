@@ -1,11 +1,11 @@
 import machine
 
 RGBPin = {
-    'blue': {'red': 1, 'green': 2, 'blue': 3},
-    'yellow': {'red': 1, 'green': 2, 'blue': 3}
+    'blue': {'red': 5, 'green': 4, 'blue': 0},
+    'yellow': {'red': 14, 'green': 12, 'blue': 13}
 }
 
-PIRPin = {'blue': 1, 'yellow': 2}
+PIRPin = {'blue': 2, 'yellow': 15}
 
 light = machine.ADC()
 
@@ -25,9 +25,9 @@ class Led:
 
     def __init__(self, red_pin, green_pin, blue_pin):
         self.pin = {
-            'red': machine.PWM(red_pin),
-            'green': machine.PWM(green_pin),
-            'blue': machine.PWM(blue_pin)
+            'red': machine.PWM(machine.Pin(red_pin)),
+            'green': machine.PWM(machine.Pin(green_pin)),
+            'blue': machine.PWM(machine.Pin(blue_pin))
         }
 
     def set_color(self, red, green, blue, alpha):
