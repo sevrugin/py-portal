@@ -4,7 +4,7 @@ _timer = Timer(-1)
 
 _timers = []
 
-INTERVAL = 10 # ms
+INTERVAL = 100 # ms
 
 
 def add(name: str, f: callable, interval: int):
@@ -26,7 +26,7 @@ def stop():
 
 def __iteration(data):
     for timer in _timers:
-        timer.current += INTERVAL
-        if timer.current >= timer.interval:
-            timer.current = 0
-            timer.f()
+        timer['current'] += INTERVAL
+        if timer['current'] >= timer['interval']:
+            timer['current'] = 0
+            timer['f']()
