@@ -1,56 +1,51 @@
-import machine
+import utime
+from src.model.strip import Strip
+from src.model.pir import Pir
+from src.model.luminosity import Luminosity
 
-RGBPin = {
-    'blue': {'red': 5, 'green': 4, 'blue': 0},
-    'yellow': {'red': 14, 'green': 12, 'blue': 13}
-}
+__blueStrip = None
+__yellowStrip = None
+__bluePir = None
+__yellowPir = None
+__luminocity = None
 
-PIRPin = {'blue': 2, 'yellow': 15}
+LIGHT_TIME = 60 # Strip light time
+MIN_LUMINOCITY = 500 # Min luminocity for system on
 
-light = machine.ADC()
+# PIR last motion time
+__blueMotionTime = None
+__yellowMotionTime = None
 
 
-# Проверка пир-датчиков на движение и включение нужного леда при необходимости
-def check():
+def init(blueStrip: Strip, yellowStrip: Strip, bluePir: Pir, yellowPir: Pir, luminocity: Luminosity):
+    __blueStrip = blueStrip
+    __yellowStrip = yellowStrip
+    __bluePir = bluePir
+    __yellowPir = yellowPir
+    __luminocity = luminocity
+
+
+def check(): # Check PIR-sensor
+    can_light = True
+    if __luminocity is not None and __luminocity.value() < MIN_LUMINOCITY:
+        can_light = False
+
+    __check_strip(__bluePir, __blueStrip, can_light)
+    __check_strip(__yellowPir, __yellowStrip, can_light)
+
+    # Как только меняется значение на движении сразу делаем проверку
+    __bluePir.set_callback(check)
+    __yellowPir.set_callback(check)
     return
 
 
-class Led:
-    FREQ = 100
-
-    red = 0
-    green = 0
-    blue = 0
-    alpha = 100
-
-    pin = {}
-
-    def __init__(self, red_pin: int, green_pin: int, blue_pin: int):
-        self.pin = {
-            'red': machine.PWM(machine.Pin(red_pin), self.FREQ, 0),
-            'green': machine.PWM(machine.Pin(green_pin), self.FREQ, 0),
-            'blue': machine.PWM(machine.Pin(blue_pin), self.FREQ, 0)
-        }
-
-    def set_color(self, red: int, green: int, blue: int):
-        self.red = self.__minmax(red, 0, 255)
-        self.green = self.__minmax(green, 0, 255)
-        self.blue = self.__minmax(blue, 0, 255)
-
-    def set_alpha(self, alpha: int):
-        self.alpha = self.__minmax(alpha, 0, 100)
-
-    def on(self, alpha: int = None):
-        if alpha is not None:
-            self.set_alpha(alpha)
-
-        self.pin['red'].freq(int(self.red * self.alpha / 100))
-        self.pin['green'].freq(int(self.green * self.alpha / 100))
-        self.pin['blue'].freq(int(self.blue * self.alpha / 100))
-
-    def __minmax(self, value: int, minval: int, maxval: int):
-        if value > maxval:
-            return maxval
-        if value < minval:
-            return minval
-        return value
+def __check_strip(pir, strip, can_light: bool):
+    if pir is Pir and strip is Strip:
+        if pir.value(): # motion
+            if not can_light or strip.get_status():
+                return
+            strip.on()
+        else: # no motion
+            if strip.get_status():
+                strip.off()
+    return
